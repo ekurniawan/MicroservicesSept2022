@@ -18,6 +18,15 @@ namespace PlatformService.Data
             _context.Platforms.Add(plat);
         }
 
+        public void DeletePlatform(int id)
+        {
+            var platform = GetPlatformById(id);
+            if(platform==null)
+                throw new Exception($"Data {id} tidak ditemukan");
+            _context.Remove(platform);
+            _context.SaveChanges();
+        }
+
         public IEnumerable<Platform> GetAllPlatforms()
         {
            return _context.Platforms.ToList();
@@ -36,6 +45,18 @@ namespace PlatformService.Data
         public bool SaveChanges()
         {
            return (_context.SaveChanges() >= 0);
+        }
+
+        public void UpdatePlatform(Platform plat)
+        {
+           var platform = GetPlatformById(plat.Id);
+           if(platform==null)
+                throw new Exception($"Data id: {plat.Id} tidak ditemukan");
+
+           platform.Name = plat.Name;
+           platform.Publisher = plat.Publisher;
+           platform.Cost = plat.Cost;
+           _context.SaveChanges();
         }
     }
 }

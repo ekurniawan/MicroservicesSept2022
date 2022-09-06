@@ -56,5 +56,33 @@ namespace PlatformService.Controllers
             return CreatedAtAction(nameof(GetPlatformById),
                 new {Id=platform.Id},platform);
         }
+
+        [HttpPut]
+        public ActionResult<Platform> UpdatePlatform(Platform platform)
+        {
+            try
+            {
+                 _repository.UpdatePlatform(platform);
+                 return platform;
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest($"Gagal update data {ex.Message}");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeletePlatform(int id)
+        {
+            try
+            {
+                _repository.DeletePlatform(id);
+                return Ok($"Data id {id} berhasil diupdate");
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
