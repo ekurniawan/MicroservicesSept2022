@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using PlatformService.Models;
 
 namespace PlatformService.Data
@@ -24,17 +20,17 @@ namespace PlatformService.Data
 
         public IEnumerable<Platform> GetAllPlatforms()
         {
-            throw new NotImplementedException();
+           return _context.Platforms.ToList();
         }
 
         public Platform GetPlatformById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Platforms.FirstOrDefault(p => p.Id == id);
         }
 
         public bool SaveChanges()
         {
-            throw new NotImplementedException();
+           return (_context.SaveChanges() >= 0);
         }
     }
 }
