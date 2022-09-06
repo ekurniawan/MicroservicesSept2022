@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 
 //DI inject appdbcontext
 builder.Services.AddDbContext<AppDbContext>(opt=>opt.UseInMemoryDatabase("InMem"));
+builder.Services.AddScoped<IPlatformRepo,PlatformRepo>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -29,5 +30,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
+PrepDb.PrepPopulation(app);
 app.Run();
