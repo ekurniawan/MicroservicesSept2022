@@ -23,6 +23,11 @@ namespace PlatformService.Data
            return _context.Platforms.ToList();
         }
 
+        public IEnumerable<Platform> GetByName(string name)
+        {
+            return _context.Platforms.Where(p=>p.Name.ToLower().Contains(name.ToLower()));
+        }
+
         public Platform GetPlatformById(int id)
         {
             return _context.Platforms.FirstOrDefault(p => p.Id == id);

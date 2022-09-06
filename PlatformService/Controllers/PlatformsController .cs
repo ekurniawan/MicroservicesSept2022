@@ -28,14 +28,23 @@ namespace PlatformService.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Platform> GetPlatformById(int id)
+        public ActionResult<Platform> GetPlatformById(int id,string nama,string alamat)
         {
             var platformItem = _repository.GetPlatformById(id);
             if (platformItem != null)
             {
+                platformItem.Name += " " + nama + " " + alamat;
                 return Ok(platformItem);
             }
             return NotFound();
+        }
+
+        [HttpGet("ByName")]
+        public ActionResult<IEnumerable<Platform>> GetByName(string name)
+        {
+            Console.WriteLine("--> Getting Platforms by name....");
+            var platformItem = _repository.GetByName(name);
+            return Ok(platformItem);
         }
 
 
