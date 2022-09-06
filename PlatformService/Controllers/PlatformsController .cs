@@ -47,6 +47,14 @@ namespace PlatformService.Controllers
             return Ok(platformItem);
         }
 
+        [HttpPost]
+        public ActionResult<Platform> CreatePlatform(Platform platform)
+        {
+            _repository.CreatePlatform(platform);
+            _repository.SaveChanges();
 
+            return CreatedAtAction(nameof(GetPlatformById),
+                new {Id=platform.Id},platform);
+        }
     }
 }
