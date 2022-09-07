@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using PlatformService.Dtos;
+using PlatformService.Models;
 
 namespace PlatformService.SyncDataServices.Http
 {
@@ -20,7 +21,7 @@ namespace PlatformService.SyncDataServices.Http
         }
 
 
-        public async Task SendPlatformToCommand(PlatformReadDto plat)
+        public async Task SendPlatformToCommand(Platform plat)
         {
             var httpContent = new StringContent(JsonSerializer.Serialize(plat),
             Encoding.UTF8, "application/json");

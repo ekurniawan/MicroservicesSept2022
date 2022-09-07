@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data;
 using PlatformService.Dtos;
 using PlatformService.Models;
+using PlatformService.SyncDataServices.Http;
 
 namespace PlatformService.Controllers
 {
@@ -14,9 +15,12 @@ namespace PlatformService.Controllers
     public class PlatformsController : ControllerBase
     {
         private readonly IPlatformRepo _repository;
-        public PlatformsController(IPlatformRepo repository)
+        private readonly ICommandDataClient _commandDataClient;
+
+        public PlatformsController(IPlatformRepo repository, ICommandDataClient commandDataClient)
         {
             _repository = repository;
+            _commandDataClient = commandDataClient;
         }
 
         [HttpGet]
@@ -48,10 +52,19 @@ namespace PlatformService.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Platform> CreatePlatform(Platform platform)
+        public async Task<ActionResult<Platform>> CreatePlatform(Platform platform)
         {
             _repository.CreatePlatform(platform);
             _repository.SaveChanges();
+
+            try
+            {
+                await _commandDataClient.SendPlatformToCommand(platform);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"--> could not send synchronous data: {ex.Message}");
+            }
 
             return CreatedAtAction(nameof(GetPlatformById),
                 new {Id=platform.Id},platform);
