@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 //DI inject appdbcontext
-/*if(builder.Environment.IsProduction())
+if(builder.Environment.IsProduction())
 {
     Console.WriteLine("--> Using Sql Server Db");
     builder.Services.AddDbContext<AppDbContext>(
@@ -20,9 +20,8 @@ else
 {
     Console.WriteLine("--> Using InMem Db");
     builder.Services.AddDbContext<AppDbContext>(opt=>opt.UseInMemoryDatabase("InMem"));
-}*/
- builder.Services.AddDbContext<AppDbContext>(
-        opt=>opt.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConn")));
+}
+ 
 
 builder.Services.AddScoped<IPlatformRepo,PlatformRepo>();
 builder.Services.AddHttpClient<ICommandDataClient,HttpCommandDataClient>();
